@@ -53,6 +53,11 @@
             </Style.Triggers>
         </Style>
 
+        <!-- Стиль активной кнопки категории -->
+        <Style x:Key="ActiveCategoryButtonStyle" TargetType="Button" BasedOn="{StaticResource PrimaryButtonStyle}">
+            <Setter Property="Background" Value="{StaticResource PrimaryDarkBrush}"/>
+        </Style>
+
         <!-- Стиль прозрачной кнопки -->
         <Style x:Key="TransparentButtonStyle" TargetType="Button">
             <Setter Property="Background" Value="Transparent"/>
@@ -82,7 +87,7 @@
         <!-- Анимации -->
         <Storyboard x:Key="FadeIn">
             <DoubleAnimation Storyboard.TargetProperty="Opacity"
-                             From="0" To="1" Duration="0:0:0.5"/>
+                             From="0" To="1" Duration="0:0:0.5"                             />
         </Storyboard>
     </Page.Resources>
 
@@ -105,8 +110,13 @@
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
-                <RowDefinition Height="*"/>
+                <!-- Шапка -->
                 <RowDefinition Height="Auto"/>
+                <!-- Категории -->
+                <RowDefinition Height="*"/>
+                <!-- Продукты -->
+                <RowDefinition Height="Auto"/>
+                <!-- Подвал -->
             </Grid.RowDefinitions>
 
             <!-- Шапка -->
@@ -137,33 +147,27 @@
                 </Grid>
             </Border>
 
+            <!-- Категории -->
+            <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Visible" Margin="10">
+                <StackPanel Orientation="Horizontal" Margin="10">
+                    <Button x:Name="AllProductsButton" Content="Все товары" Tag="0"
+                            Style="{StaticResource ActiveCategoryButtonStyle}"
+                            Click="CategoryButton_Click" Margin="5" Padding="10,5"
+                            ToolTip="Показать все продукты"/>
+
+                    <!-- Категории будут добавляться динамически -->
+                </StackPanel>
+            </ScrollViewer>
+
             <!-- Основное содержимое -->
-            <ScrollViewer Grid.Row="1" Margin="10">
-                <WrapPanel>
-                    <!-- Пример продукта -->
-                    <Border Width="200" Height="250" Margin="10" CornerRadius="8" 
-                            Background="White" BorderBrush="{StaticResource DividerBrush}" 
-                            BorderThickness="1">
-                        <Border.Effect>
-                            <DropShadowEffect BlurRadius="5" ShadowDepth="2" 
-                                            Color="{StaticResource PrimaryColor}" Opacity="0.1"/>
-                        </Border.Effect>
-                        <StackPanel>
-                            <Border Height="120" Background="{StaticResource PrimaryLightBrush}" 
-                                    CornerRadius="8 8 0 0"/>
-                            <TextBlock Text="Яблоки" FontWeight="Bold" Margin="10 10 10 0" 
-                                       Foreground="{StaticResource TextBrush}"/>
-                            <TextBlock Text="120 руб/кг" Margin="10 0" 
-                                       Foreground="{StaticResource PrimaryDarkBrush}"/>
-                            <Button Content="В корзину" Margin="10" Width="120" 
-                                    Style="{StaticResource PrimaryButtonStyle}"/>
-                        </StackPanel>
-                    </Border>
+            <ScrollViewer Grid.Row="2" Margin="0,10,0,0" VerticalScrollBarVisibility="Auto">
+                <WrapPanel x:Name="ProductsWrapPanel" Margin="10">
+                    <!-- Продукты будут добавляться динамически -->
                 </WrapPanel>
             </ScrollViewer>
 
             <!-- Подвал -->
-            <Border Grid.Row="2" Background="{StaticResource PrimaryLightBrush}" Padding="15"
+            <Border Grid.Row="3" Background="{StaticResource PrimaryLightBrush}" Padding="15"
                     CornerRadius="12 12 0 0">
                 <Border.Effect>
                     <DropShadowEffect BlurRadius="10" ShadowDepth="3" 
